@@ -1,0 +1,56 @@
+{
+  "_comment": "FICTIONAL EXAMPLE ONLY. Copy to profile.json (gitignored) and fill with your own confirmed facts. Never invent qualifications. Leave unknown fields blank or omit them.",
+  "full_name": "Alex Example",
+  "preferred_name": "Alex",
+  "email": "alex.example@example.com",
+  "phone": "+1-555-0100",
+  "location": {
+    "city": "Example City",
+    "region": "EX",
+    "country": "Exampleland",
+    "timezone": "America/Toronto"
+  },
+  "work_authorization": {
+    "note": "Leave blank in public copies. Fill privately via secure form when a site asks. Never invent status."
+  },
+  "salary_expectations": {
+    "note": "Private. Answer only through a secure form when a live application asks. Never invent a number for the user."
+  },
+  "target_roles": [
+    "Example Role Title",
+    "Another Example Title"
+  ],
+  "dealbreakers": [
+    "No unpaid internships",
+    "No relocation outside stated cities"
+  ],
+  "skills_confirmed": [
+    "Example Skill A",
+    "Example Skill B"
+  ],
+  "experience_summary": [
+    {
+      "title": "Example Job Title",
+      "company": "Example Corp",
+      "start": "2020-01",
+      "end": "2023-06",
+      "highlights": [
+        "Did an example thing with measurable outcome X"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "school": "Example University",
+      "degree": "B.Sc. Example Studies",
+      "year": "2019"
+    }
+  ],
+  "links": {
+    "linkedin": "https://www.linkedin.com/in/example-profile/",
+    "portfolio": "https://example.com",
+    "github": "https://github.com/example"
+  },
+  "resume_file_hint": "Keep the real resume under a private bot path or vault — never in this public repo.",
+  "optional_demographics_policy": "Never pre-select EEO/demographic/self-ID answers. The owner chooses every optional demographic field, or leaves it blank."
+}

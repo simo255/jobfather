@@ -1,0 +1,49 @@
+# Private profile and resume — never commit
+profile.json
+resume/
+resumes/
+*.pdf
+*.docx
+*.doc
+
+# Secrets and credentials
+.env
+.env.*
+*.pem
+*.key
+credentials*
+secrets*
+.vault*
+answers.json
+answers.local.json
+answer-bank/
+tracker/
+tracking.csv
+applications.csv
+applications/
+
+# Screenshots, browser artifacts, logs
+screenshots/
+*.png
+*.jpg
+*.jpeg
+*.webp
+logs/
+*.log
+
+# Local session / browser profiles
+.browser-profile/
+.linkedin-mcp/
+li-root/
+chrome-debug*/
+user-data/
+*.session
+cookies*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*~

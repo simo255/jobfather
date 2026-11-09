@@ -1,0 +1,16 @@
+{
+  "name": "linkedin-jobs-readonly",
+  "command": "/path/to/venv/bin/mcp-server-linkedin",
+  "args": [
+    "--transport", "stdio",
+    "--no-auto-import",
+    "--user-data-dir", "/path/to/linkedin-mcp-profile",
+    "--login-inline-wait", "0",
+    "--log-level", "WARNING"
+  ],
+  "env": {
+    "AUTO_IMPORT_FROM_BROWSER": "false",
+    "UV_HTTP_TIMEOUT": "300"
+  },
+  "notes": "Replace paths with your own. Keep --no-auto-import and AUTO_IMPORT_FROM_BROWSER=false. Do not use --import-from-browser. Interactive login: mcp-server-linkedin --login --no-auto-import --no-headless --user-data-dir /path/to/linkedin-mcp-profile"
+}
