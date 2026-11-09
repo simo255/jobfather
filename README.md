@@ -4,6 +4,8 @@ A Grok Bot setup for job search and applications with hard approval gates. It fi
 
 Built for [Grok Bot](https://cursor.com). LinkedIn discovery uses [stickerdaniel/linkedin-mcp-server](https://github.com/stickerdaniel/linkedin-mcp-server) (Apache-2.0) in read-only mode. Applications and profile edits go through the browser, never through MCP write tools.
 
+**[Add JobFather to Grok Bot → public template](https://x.ai/bot/oSQv1RZTLDUF9Os_CzkQX)**
+
 ## How it works
 
 ```mermaid
@@ -56,6 +58,10 @@ Nothing here is a live resume, answer bank, tracker, credential, or session.
 ## Setup
 
 ### 1. Create the Grok Bot
+
+Fastest: open the [JobFather template](https://x.ai/bot/oSQv1RZTLDUF9Os_CzkQX) and add it. It comes with the persona and a first-run setup guide.
+
+Manual alternative:
 
 1. Create a new Grok Bot named JobFather (or your preferred name).
 2. Paste `persona/JOBFATHER.md` into the bot description / persona field.
