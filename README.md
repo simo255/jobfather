@@ -1,8 +1,8 @@
 # JobFather
 
-A Grok Bot setup for job search and applications with hard approval gates. It finds roles, shows you a short brief, waits for your OK on that specific job, drafts every answer for you to edit, then shows the completed form and resume for a final review before it submits.
+A Grok Bot setup for job search. It finds roles that match your criteria, sends you a short brief for each one (the offer, the link, and why it fits), and keeps your resume and LinkedIn profile truthful. It does not apply, fill forms, or submit. Applications are handled by a separate applier bot.
 
-Built for [Grok Bot](https://cursor.com). LinkedIn discovery uses [stickerdaniel/linkedin-mcp-server](https://github.com/stickerdaniel/linkedin-mcp-server) (Apache-2.0) in read-only mode. Applications and profile edits go through the browser, never through MCP write tools.
+Built for [Grok Bot](https://cursor.com). LinkedIn discovery uses [stickerdaniel/linkedin-mcp-server](https://github.com/stickerdaniel/linkedin-mcp-server) (Apache-2.0) in read-only mode. Profile edits go through the browser, never through MCP write tools.
 
 **[Add JobFather to Grok Bot → public template](https://x.ai/bot/oSQv1RZTLDUF9Os_CzkQX)**
 
@@ -11,36 +11,22 @@ Built for [Grok Bot](https://cursor.com). LinkedIn discovery uses [stickerdaniel
 ```mermaid
 flowchart TD
   A[You describe target roles] --> B[Search LinkedIn MCP + company sites]
-  B --> C[Brief: role, company, link, fit, gaps]
-  C --> D{OK, apply for this one?}
+  B --> C[Brief: role, company, link, why it fits, gaps]
+  C --> D{Interested?}
   D -->|No| B
-  D -->|Yes| E[Fill from confirmed facts only]
-  E --> F[Unknown question?]
-  F -->|Yes| G[Draft answer + wait for your edit]
-  G --> E
-  F -->|No| H[Show resume version + full answers]
-  H --> I{Final review OK?}
-  I -->|No / edit| E
-  I -->|Yes| J[Submit once]
-  J --> K[Verify success page]
-  K --> L[Update private tracker]
+  D -->|Yes| E[Hand off to a separate applier bot]
 ```
 
-Two gates, every time:
-
-1. **Per-role OK.** Preparation starts only after you say yes to that specific posting.
-2. **Final review.** Submission happens only after you confirm the exact answers and resume version.
+JobFather stops at the brief. It never fills a form or submits an application.
 
 ## Features
 
 - Short briefs with original posting URL and fit grounded in your resume facts
-- Approval-gated apply flow (no blanket or batch auto-apply)
-- Draft-before-asking on every question; you edit, then it uses your reply
-- Confirmed-answer bank with provenance
-- Private application tracker (status, resume version, confirmation evidence)
+- Search across LinkedIn (read-only MCP) and company career pages
+- Posting checks against the original employer page where possible
 - Resume create / edit / tailor, with version history and PDF on request
 - LinkedIn profile upkeep with exact-diff approval before saving
-- Posting checks against the original employer page where possible
+- Private search tracker (roles shown, interest, handoff status)
 - Vault-first sign-in for normal browser logins
 
 ## What's in this repo
@@ -53,7 +39,7 @@ Two gates, every time:
 | `examples/profile.example.json` | Fictional career-fact schema (fill privately; never commit real data) |
 | `LICENSE` | MIT |
 
-Nothing here is a live resume, answer bank, tracker, credential, or session.
+Nothing here is a live resume, fact record, tracker, credential, or session.
 
 ## Setup
 
@@ -96,29 +82,24 @@ The connector opens its own **Chrome for Testing** window. Vault autofill cannot
 3. Wait about 30 seconds, then confirm with `get_session_status` (`cookies` true).
 4. After that, the profile directory reuses the session.
 
-All other sign-ins (regular browser, employer sites) still use vault credentials first. If a vault fill fails, the bot asks you for input through the secure form. It never asks for passwords in chat.
+All other sign-ins (regular browser, career-page search) still use vault credentials first. If a vault fill fails, the bot asks you for input through the secure form. It never asks for passwords in chat.
 
 ### 4. Private onboarding
 
-Send your resume to JobFather directly. Tell it target roles, location or remote preferences, seniority, salary expectations, work authorization constraints, and dealbreakers. It builds a private fact record and answer bank. Those stay off this repository.
-
-### 5. First supervised apply
-
-Treat the first live application as a dry run of the two approval gates. Confirm both stops work before you rely on the flow.
+Send your resume to JobFather directly. Tell it target roles, location or remote preferences, seniority, salary expectations, work authorization constraints, and dealbreakers. It builds a private fact record used to judge fit in each brief. Those stay off this repository.
 
 ## Safety rules
 
-- Never apply without your approval on that specific role, then again on the final answers.
+- JobFather does not apply, fill forms, or submit. Applications are handled by a separate applier bot.
 - If the bot is unsure, it stops and asks. It does not invent qualifications, dates, metrics, or answers.
 - Credentials stay in the vault. They never go in chat, memory, files, or GitHub.
 - No cookie extraction or import.
-- Optional demographic / EEO fields are never chosen by the bot.
 - This public repo must never contain resumes, personal data, answers, credentials, session state, screenshots, or application records.
 
 ## Limitations
 
-- The LinkedIn MCP is for discovery and form inspection only. It does not submit applications.
-- Easy Apply and company ATS pages differ; some forms need more back-and-forth.
+- The LinkedIn MCP is for discovery only. JobFather does not apply or submit.
+- Application forms, including Easy Apply and company ATS pages, are out of scope; a separate applier bot handles them.
 - LinkedIn may challenge logins (2FA, captcha, device approval). Those need you.
 - Authenticated search depends on a valid MCP browser session. If it expires, sign in again in the Testing window.
 - Interview prep is optional future work, not part of this setup.

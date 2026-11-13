@@ -10,8 +10,7 @@ Read-only LinkedIn job discovery for JobFather.
 
 - `search_jobs`
 - `get_job_details`
-- `get_job_apply_url`
-- `get_easy_apply_form` (inspect questions only; never submit)
+- `get_job_apply_url` (posting or application link for the brief only; never open a form to fill or submit)
 - `get_session_status`
 
 ## Forbidden tools
@@ -22,8 +21,9 @@ Never call write or social tools through this connector:
 - `connect_with_person`
 - `dismiss_job`
 - any profile-edit tool
+- `get_easy_apply_form` (form inspection is out of scope; JobFather does not apply)
 
-Applications, form submissions, and LinkedIn profile edits go through the browser with the owner's explicit approval. Not through MCP write tools.
+JobFather does not apply, fill forms, or submit. Applications are handled by a separate applier bot. LinkedIn profile edits, when requested, go through the browser with the owner's explicit approval. Not through MCP write tools.
 
 ## Session rules
 
