@@ -1,6 +1,6 @@
 # JobFather
 
-A Grok Bot setup for job search. It finds roles that match your criteria, sends you a short brief for each one (the offer, the link, and why it fits), and keeps your resume and LinkedIn profile truthful. It does not apply, fill forms, or submit. Applications are handled by a separate applier bot.
+A Grok Bot setup for job search. It finds roles that match your criteria, sends you a short brief for each one (the offer, the link, and why it fits), and keeps your resume and LinkedIn profile truthful. It does not apply, fill forms, or submit. When you OK a job, it logs the job as approved in a shared private tracker and hands the posting URL to a separate applier bot.
 
 Companion: [jobapplicatoooor](https://github.com/simo255/jobapplicatoooor)
 
@@ -14,21 +14,23 @@ Built for [Grok Bot](https://cursor.com). LinkedIn discovery uses [stickerdaniel
 flowchart TD
   A[You describe target roles] --> B[Search LinkedIn MCP + company sites]
   B --> C[Brief: role, company, link, why it fits, gaps]
-  C --> D{Interested?}
+  C --> D{You OK the job?}
   D -->|No| B
-  D -->|Yes| E[Hand off to a separate applier bot]
+  D -->|Yes| E[Log as approved in the shared tracker]
+  E --> F[Hand the posting URL to the applier bot]
 ```
 
-JobFather stops at the brief. It never fills a form or submits an application.
+JobFather stops at the brief and the handoff. It never fills a form or submits an application. It never hands over a job you have not approved.
 
 ## Features
 
 - Short briefs with original posting URL and fit grounded in your resume facts
 - Search across LinkedIn (read-only MCP) and company career pages
 - Posting checks against the original employer page where possible
+- Direct handoff: an approved job is logged in the shared tracker and sent to the applier bot
+- Shared private folder for the official resume, confirmed answers, and the application tracker (never committed)
 - Resume create / edit / tailor, with version history and PDF on request
 - LinkedIn profile upkeep with exact-diff approval before saving
-- Private search tracker (roles shown, interest, handoff status)
 - Vault-first sign-in for normal browser logins
 
 ## What's in this repo
@@ -36,12 +38,37 @@ JobFather stops at the brief. It never fills a form or submits an application.
 | Path | What it is |
 |------|------------|
 | `persona/JOBFATHER.md` | Full bot persona / instructions to paste into a Grok Bot |
+| `skills/jobfather-workflow/SKILL.md` | Scout-only workflow skill |
+| `skills/jobfather-getting-started/SKILL.md` | First-chat onboarding skill |
 | `mcp/connector.example.json` | Example local MCP connector config (placeholder paths) |
 | `mcp/CONNECTOR_INSTRUCTIONS.md` | Read-only connector instructions |
 | `examples/profile.example.json` | Fictional career-fact schema (fill privately; never commit real data) |
+| `examples/answers.example.md` | Fictional answers template for the shared private folder |
+| `examples/tracker.csv` | Empty tracker header for the shared private folder |
+| `examples/shared-folder-README.md` | README template for the shared private folder |
 | `LICENSE` | MIT |
 
 Nothing here is a live resume, fact record, tracker, credential, or session.
+
+## Shared private folder
+
+Both JobFather and [jobapplicatoooor](https://github.com/simo255/jobapplicatoooor) read and write a private folder that is **not** part of this repository. Pick a path both bots can access, for example `~/job-private/`, and record that path in each bot's private memory.
+
+Suggested layout (see `examples/shared-folder-README.md`):
+
+- Official resume: a PDF plus its HTML source. The applier uploads this file, never the resume stored inside Simplify.
+- `answers.md`: owner-confirmed facts and answers only. Pending items stay blank. Start from `examples/answers.example.md`.
+- `tracker.csv`: every job briefed, approved, or submitted. Header:
+
+  ```
+  date_et,company,role,posting_url,job_id,status,by_bot,resume_file,confirmation
+  ```
+
+  Start from `examples/tracker.csv`.
+
+When you OK a job, JobFather appends a row with status `approved` and messages the applier bot with the posting URL. The applier checks the tracker before every submission so the same job is not applied to twice.
+
+Keep this folder private. Never commit it, and never put real answers or a resume in this public repo.
 
 ## Setup
 
@@ -53,7 +80,8 @@ Manual alternative:
 
 1. Create a new Grok Bot named JobFather (or your preferred name).
 2. Paste `persona/JOBFATHER.md` into the bot description / persona field.
-3. Keep the hard rules at the bottom intact.
+3. Copy `skills/jobfather-workflow/SKILL.md` and `skills/jobfather-getting-started/SKILL.md` into the bot's skills.
+4. Keep the hard rules at the bottom of the persona intact.
 
 ### 2. Install the LinkedIn MCP
 
@@ -88,11 +116,14 @@ All other sign-ins (regular browser, career-page search) still use vault credent
 
 ### 4. Private onboarding
 
-Send your resume to JobFather directly. Tell it target roles, location or remote preferences, seniority, salary expectations, work authorization constraints, and dealbreakers. It builds a private fact record used to judge fit in each brief. Those stay off this repository.
+Send your resume to JobFather directly. Tell it target roles, location or remote preferences, seniority, salary expectations, work authorization constraints, and dealbreakers. Point it at the shared private folder (or let it help you create one) so confirmed facts and the tracker live there. Those stay off this repository.
+
+Pair it with [jobapplicatoooor](https://github.com/simo255/jobapplicatoooor), or another applier bot, so approved jobs can be handed over directly.
 
 ## Safety rules
 
 - JobFather does not apply, fill forms, or submit. Applications are handled by a separate applier bot.
+- It never hands the applier a job you have not approved.
 - If the bot is unsure, it stops and asks. It does not invent qualifications, dates, metrics, or answers.
 - Credentials stay in the vault. They never go in chat, memory, files, or GitHub.
 - No cookie extraction or import.
@@ -109,6 +140,7 @@ Send your resume to JobFather directly. Tell it target roles, location or remote
 ## Credits
 
 - LinkedIn MCP: [stickerdaniel/linkedin-mcp-server](https://github.com/stickerdaniel/linkedin-mcp-server) (`mcp-server-linkedin` on PyPI), Apache-2.0
+- Companion applier: [jobapplicatoooor](https://github.com/simo255/jobapplicatoooor)
 - Runtime: Grok Bot / Cursor
 
 ## License

@@ -1,7 +1,16 @@
-# Private profile and resume — never commit
+# Shared private folder and live records — never commit
+job-private/
+answers.md
+tracker.csv
+!examples/answers.example.md
+!examples/tracker.csv
+
+# Private profile and resume
 profile.json
 resume/
 resumes/
+cv/
+cvs/
 *.pdf
 *.docx
 *.doc
@@ -32,6 +41,7 @@ logs/
 *.log
 
 # Local session / browser profiles
+sessions/
 .browser-profile/
 .linkedin-mcp/
 li-root/
@@ -39,6 +49,7 @@ chrome-debug*/
 user-data/
 *.session
 cookies*
+.chrome*/
 
 # OS / editor
 .DS_Store

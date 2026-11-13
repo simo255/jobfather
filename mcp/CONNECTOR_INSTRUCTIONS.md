@@ -4,13 +4,13 @@ Paste these (or equivalent) into the connector's instruction field when you add 
 
 ## Purpose
 
-Read-only LinkedIn job discovery for JobFather.
+Read-only LinkedIn job discovery for JobFather. This connector is for scouting only. Applications go to a separate applier bot after the owner approves a job. Do not use this connector to apply, fill forms, or submit.
 
 ## Allowed tools
 
 - `search_jobs`
 - `get_job_details`
-- `get_job_apply_url` (posting or application link for the brief only; never open a form to fill or submit)
+- `get_job_apply_url` (posting or application link for the brief and for a later handoff only; never open a form to fill or submit)
 - `get_session_status`
 
 ## Forbidden tools
