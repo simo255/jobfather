@@ -2,6 +2,8 @@
 
 A Grok Bot setup for job search. It finds roles that match your criteria, sends you a short brief for each one (the offer, the link, and why it fits), and keeps your resume and LinkedIn profile truthful. It does not apply, fill forms, or submit. Applications are handled by a separate applier bot.
 
+Companion: [jobapplicatoooor](https://github.com/simo255/jobapplicatoooor)
+
 Built for [Grok Bot](https://cursor.com). LinkedIn discovery uses [stickerdaniel/linkedin-mcp-server](https://github.com/stickerdaniel/linkedin-mcp-server) (Apache-2.0) in read-only mode. Profile edits go through the browser, never through MCP write tools.
 
 **[Add JobFather to Grok Bot → public template](https://x.ai/bot/oSQv1RZTLDUF9Os_CzkQX)**
